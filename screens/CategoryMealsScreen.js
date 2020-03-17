@@ -10,8 +10,6 @@ const CategoriesMealsScreen = props => {
 }
 
 
-
-
 const styles = StyleSheet.create({
 
     screen:{
