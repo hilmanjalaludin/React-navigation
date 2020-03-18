@@ -11,8 +11,6 @@ const mealsnavigator = createStackNavigator({
            screen : CategoriesMealScreen
         },
         MealDetail: MealDetailScreen     
-},{
-    headerMode:'none'
 });
 
 export default createAppContainer(mealsnavigator)
