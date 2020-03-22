@@ -1,25 +1,24 @@
 import React from 'react';
-import {View,Text,StyleSheet,Button,Platform} from 'react-native';
-import {CATEGORIES} from '../data/dummy-data'
-import color from '../constants/color';
+import {View,Text,StyleSheet,Button,FlatList} from 'react-native';
+
+import { CATEGORIES, MEALS } from '../data/dummy-data';
+//import MealItem from '../components/MealItem';
+
 
 const CategoriesMealsScreen = props => {
-    const catid =props.navigation.getParam('CategoryId');
+    const renderMealItem = ItemData =>{
+    return (<View><Text>{ItemData.item.title}</Text></View>)
+    }
 
-    const selectedCategory = CATEGORIES.find(cat => cat.id === catid)
+    const catId = props.navigation.getParam('CategoryId');
+
+    const displayedMeals = MEALS.filter(
+         meal => meal.categoryIds.indexOf(catId) >= 0
+     );
+     
     return(
         <View style={styles.screen}>
-            <Text>The CategoriesMealsScreen Screen</Text>
-            <Text>{selectedCategory.title}</Text>
-            <Button title="GO to Detail"  onPress={() => {
-                   props.navigation.navigate({routeName:'MealDetail'})
-            }} />
-
-         <Button title="GO Back"  onPress={() =>{
-             props.navigation.goBack()
-             //props.navigate.pop()
-         }} />
-
+           <FlatList data={displayedMeals} keyExtractor={(item,index) => item.id} renderItem={renderMealItem} />
         </View>
     )
 
@@ -32,10 +31,6 @@ CategoriesMealsScreen.navigationOptions = (navigationData) =>{
 
    return {
        headerTitle : selectedCategory.title,
-       headerStyle:{
-        backgroundColor:Platform.OS === 'android' ? color.primaryColor : 'white'
-      },
-       headerTintColor:Platform.OS === 'android' ? 'white' : color.primaryColor
    }
 }
 

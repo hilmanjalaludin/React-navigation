@@ -1,30 +1,24 @@
 import React from 'react';
 import {View,Text,StyleSheet, FlatList ,Button,TouchableOpacity,Platform} from 'react-native';
 import {CATEGORIES} from '../data/dummy-data';
-import color from '../constants/color';
-
-
-
+import CategorisGridTile from '../components/CategorisGrid';
 
 const CategoriesScreen = props => {
     
    const renderGridItem = (itemData) =>{
           //console.log(itemData)
-            return <TouchableOpacity 
-                        style={styles.gridItem}
-                        onPress={() =>{
-                        props.navigation.navigate({
-                            routeName: 'CategoryMels',
-                            params:{
-                                CategoryId: itemData.item.id 
-                            }
-                        })
-                        }}>
-                            <View>
-                                    <Text>{itemData.item.title}</Text>
-                                </View>
-                            </TouchableOpacity>
+           return <CategorisGridTile 
+                title={itemData.item.title} 
+                color={itemData.item.color}
+                onSelect={() =>{
+                props.navigation.navigate({
+                    routeName: 'CategoryMels',
+                    params:{
+                        CategoryId: itemData.item.id 
                     }
+                })
+           }} /> 
+     }
     
     return(
         <FlatList keyExtractor={(item,index) => item.id} 
@@ -43,11 +37,7 @@ const CategoriesScreen = props => {
 
 CategoriesScreen.navigationOptions = {
      
-    headerTitle: 'Meal Categoris',
-    headerStyle:{
-        backgroundColor:Platform.OS === 'android' ? color.primaryColor : 'white'
-    },
-    headerTintColor:Platform.OS === 'android' ? 'white' : color.primaryColor
+    headerTitle: 'Meal Categoris'
      
 }
 
@@ -56,12 +46,9 @@ const styles = StyleSheet.create({
     screen:{
         flex:1,
         justifyContent:'center',
-        alignItems:'center'
-    },
-    gridItem:{
-        flex:1,
-        margin:15,
-        height:150
+        alignItems:'center',
+        borderRadius:10,
+        overflow:'hidden'
     }
 });
 
