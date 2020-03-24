@@ -6,10 +6,17 @@ import MealItem from '../components/Mealitem';
 
 
 const CategoriesMealsScreen = props => {
+
     const renderMealItem = ItemData =>{
-        return <MealItem title={ItemData.item.title}
+        return <MealItem 
+        title={ItemData.item.title}
         image={ItemData.item.imageUrl}
-        onSelectMeal={() => {}} duration={ItemData.item.duration} 
+        onSelectMeal={() => {
+            props.navigation.navigate({routeName:'MealDetail',params:{
+                mealId:ItemData.item.id
+            } })
+        }} 
+        duration={ItemData.item.duration} 
         complexity={ItemData.item.complexity}
         affordability={ItemData.item.affordability}
          />
@@ -33,14 +40,12 @@ CategoriesMealsScreen.navigationOptions = (navigationData) =>{
    //console.log(navigationData)
    const catid = navigationData.navigation.getParam('CategoryId')
    const selectedCategory = CATEGORIES.find(cat => cat.id === catid)
-
    return {
        headerTitle : selectedCategory.title,
    }
 }
 
 const styles = StyleSheet.create({
-
     screen:{
         flex:1,
         justifyContent:'center',
