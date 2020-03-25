@@ -6,22 +6,25 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import {createMaterialBottomTabNavigator} from 'react-navigation-material-bottom-tabs'
 import   CategoriesScreen   from '../screens/CategoriesScreen';
+import {createDrawerNavigator}  from 'react-navigation-drawer'
 import   CategoriesMealScreen from '../screens/CategoryMealsScreen'
 import MealDetailScreen   from '../screens/MealDetailScreen'
 import color from '../constants/color';
 import FavoriteScreen from '../screens/FavoritesScreen'
-
+import FilterScreen from '../screens/FilterScreen'
 
 const defaultStackNavOptions = {
         //     initialRouteName: 'CategoryMels',
-         defaultNavigationOptions:{
             headerStyle:{
-                 backgroundColor:Platform.OS === 'android' ? color.primaryColor : 'white'
+                 backgroundColor:Platform.OS === 'android' ? color.primaryColor : ''
                  },
                  headerTintColor:Platform.OS === 'android' ? 'white' : color.primaryColor,
                  headerTitle:'A Screen'
-              }
-      }
+}
+
+      
+
+      
 
 const mealsnavigator = createStackNavigator({
         Categories: {
@@ -74,4 +77,15 @@ const MealsFavTabNavigator = Platform.OS === 'android' ? createMaterialBottomTab
     }
 })
 
-export default createAppContainer(MealsFavTabNavigator)
+const FilterNavigator = createStackNavigator ({
+        Filters:FilterScreen
+})
+
+const MainNavigator = createDrawerNavigator({
+    MealsFavs : MealsFavTabNavigator,
+    Filters: FilterNavigator
+});
+
+//export default createAppContainer(MealsFavTabNavigator)
+//jika tidak ingi ada menu di samping aktifkan
+export default createAppContainer(MainNavigator)
