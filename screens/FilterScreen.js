@@ -1,12 +1,35 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {HeaderButtons,Item} from 'react-navigation-header-buttons'
 import HeaderButton from '../components/HeaderButtom'
-import {View,Text,StyleSheet} from 'react-native';
+import {View,Text,StyleSheet,Switch,Platform} from 'react-native';
+import color from '../constants/color';
+
+const FilterSwitch = props => {
+      return (
+        <View style={styles.filtercontainer}>
+                <Text>{props.label}</Text>
+                <Switch 
+                trackColor={{true:color.primaryColor}}
+                thumbColor={Platform.OS === 'android' ? color.primaryColor : ''}
+                value={props.state} onValueChange={props.onChange} />
+        </View>
+      )
+}
+
 
 const FilterScreen = props => {
+    const [isGluteenFree, setIsGluteenFree] = useState(false)
+    const [isLactoseFree, setIsLactosFree] = useState(false)
+    const [isVegan, setIsVegan] = useState(false)
+    const [isVegerian, setIsVegerian] = useState(false)
+
     return(
         <View style={styles.screen}>
-            <Text>The FilterScreen  Screen</Text>
+            <Text style={styles.title}>Avaliable Filters / Restrictions</Text>
+            <FilterSwitch label='Gluten-free' state={isGluteenFree} onChange={newValue => setIsGluteenFree(newValue)} />
+            <FilterSwitch label='Lactose-free' state={isLactoseFree} onChange={newValue => setIsLactosFree(newValue)} />
+            <FilterSwitch label='Vegan' state={isVegan} onChange={newValue => setIsVegan(newValue)} />
+            <FilterSwitch label='Vegetarian' state={isVegerian} onChange={newValue => setIsVegerian(newValue)} />
         </View>
     )
 }
@@ -29,8 +52,24 @@ const styles = StyleSheet.create({
 
     screen:{
         flex:1,
-        justifyContent:'center',
+        //justifyContent:'center',
         alignItems:'center'
+    },
+    FilterScreen:{
+
+    },
+    title:{
+        fontSize:22,
+        fontFamily:'open-sans-bold',
+        margin:20,
+        textAlign:'center'
+    },
+    filtercontainer:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems:'center',
+        width:'80%',
+        marginVertical:15
     }
 });
 

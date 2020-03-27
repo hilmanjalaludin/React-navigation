@@ -28,10 +28,6 @@ const defaultStackNavOptions = {
                  headerTitle:'A Screen'
 }
 
-      
-
-      
-
 const mealsnavigator = createStackNavigator({
         Categories: {
                 screen:CategoriesScreen,
@@ -75,8 +71,8 @@ const MealsFavTabNavigator = Platform.OS === 'android' ? createMaterialBottomTab
       activeColor: 'white',
       shifting:true,
       barStyle:{
-              backgroundColor:color.primaryColor
-      }
+              backgroundColor:color.primaryColor,
+      },
 }) : createBottomTabNavigator({
       tabScreenConfig,
        tabBarOptions:{
@@ -108,8 +104,6 @@ const MainNavigator = createDrawerNavigator({
                 labelStyle:{
                         fontFamily:'open-sans-bold',
                 },
-
-                
         }
 });
 
