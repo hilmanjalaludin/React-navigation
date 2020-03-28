@@ -1,11 +1,12 @@
-import React,{useEffect} from 'react';
+import React,{useEffect,useCallback} from 'react';
 import {ScrollView,Image,View,Text,StyleSheet} from 'react-native';
 
-import { useSelector } from 'react-redux'
+import { useSelector,useDispatch } from 'react-redux'
 
 import { HeaderButtons,Item } from 'react-navigation-header-buttons'
 import HeaderButton from '../components/HeaderButtom'
 import DefaultText from '../components/DefaultText';
+import { toogleFavorites } from '../store/actions/meals';
 
 const ListItems = props =>{
     return <View style={styles.listitem}>
@@ -20,9 +21,19 @@ const MealDetailScreen = props => {
     
     const selectedMeal = avaliableMeals.find(meal => meal.id === mealId);
 
-    // useEffect(()=>{
-    //     props.navigation.setParams({mealTitle:selectedMeal.title})
-    // },[selectedMeal])
+    const dispatch = useDispatch()
+    
+    
+    const toggleFavoriteHandler = useCallback(() =>{
+         dispatch(toogleFavorites(mealId))
+    },[dispatch,mealId])
+    
+
+    useEffect(()=>{
+        //props.navigation.setParams({mealTitle:selectedMeal.title})
+        props.navigation.setParams({toggleFav: toggleFavoriteHandler})
+    },[toggleFavoriteHandler])
+
 
 
     return(
@@ -46,16 +57,16 @@ const MealDetailScreen = props => {
 
 
 MealDetailScreen.navigationOptions = (navigationData) => {
-    const mealId= navigationData.navigation.getParam('mealId')
+    //const mealId= navigationData.navigation.getParam('mealId')
     const mealTitle = navigationData.navigation.getParam('mealTitle')
-  
+    const tooleFavorites = navigationData.navigation.getParam('toggleFav')
   //  const selectedMeal = mealTitle.find(meal => meal.id === mealId);
     return {
         headerTitle:mealTitle,
         headerRight: ()=> {
              return  (<HeaderButtons HeaderButtonComponent={HeaderButton}>
                         <Item title='Favorite' iconName='ios-star'
-                               onPress={() =>console.log('Mark as Favorite')} />
+                               onPress={tooleFavorites} />
                         {/* <Item title='Favorites' iconName='ios-star-outline'
                         onPress={() =>console.log('Mark as Favorite')} /> */}
                      </HeaderButtons>)
